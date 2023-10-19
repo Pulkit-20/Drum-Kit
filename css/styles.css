@@ -1,0 +1,34 @@
+body {
+	font-family: 'Avenir Next', 'Avenir', 'Helvetica Neue', 'Lato', 'Segoe UI', Helvetica, Arial, sans-serif;
+	color: #2d2e36;
+	background: #c2ccd4;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+a {
+	text-decoration: none;
+	color: #8e8f9a;
+	outline: none;
+}
+
+a:hover,
+a:focus {
+	color: #2d2e36;
+	outline: none;
+}
+
+audio {
+	display: none;
+}
+
+.container {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+}
