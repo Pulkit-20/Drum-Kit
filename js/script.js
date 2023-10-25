@@ -1,4 +1,75 @@
-$(function(){
+(function() {
+        // Crash variables
+        crashCymbolAll = $('#Crash');
+        crashCymbol = $('#Crash-Cymbol');
+        crashAudio = $('#Crash-Audio');
+    
+        // Crash timeline
+        var crashtl = new TimelineMax({
+            paused: true
+        });
+        crashtl.to(crashCymbol, 0.1, {rotation: 8, transformOrigin: "50% 50%"})
+               .to(crashCymbol,1.5, {rotation: 0, transformOrigin: "50% 50%", ease: Elastic.easeOut.config(2.5, 0.3)});
+    
+        // Crash play
+        window.crash = function() {
+            crashtl.restart();
+            crashtl.play();
+            var crashAudioEl = crashAudio.get(0);
+            crashAudioEl.currentTime = 0;
+            crashAudioEl.play();
+        }
+    
+        // Do the crash stuff when clicked/touched
+        var clickTouchCrashDone = false;
+        crashCymbolAll.on("touchstart click", function() {
+            if(!clickTouchCrashDone) {
+                clickTouchCrashDone = true;
+                setTimeout(function() {
+                    clickTouchCrashDone = false;
+                }, 100);
+                crash();
+                return false;
+            }
+        });
+    
+        // Right tom drum variables
+        rightTomDrumAll = $('#Tom-Right-All');
+        rightTomDrum = $('#Tom-Right-Drum');
+        smallTomAudio = $('#Small-Rack-Tom-Audio');
+    
+        // Right tom drum timeline
+        var rightTomtl = new TimelineMax({
+            paused: true
+        });
+        rightTomtl.to(rightTomDrum, 0.1, {scaleX: 1.04, transformOrigin: "50% 50%", ease: Expo.easeOut})
+                  .to(rightTomDrum, 0.1, {scaleY: 0.95, transformOrigin: "50% 50%", ease: Expo.easeOut}, '0')
+                  .to(rightTomDrumAll, 0.1, {rotation: 2.5, transformOrigin: "0 50%", ease: Elastic.easeOut}, '0')
+                  .to(rightTomDrum, 0.4, {scale: 1, transformOrigin: "50% 50%", ease: Elastic.easeOut})
+                  .to(rightTomDrumAll, 0.6, {rotation: 0, transformOrigin: "0 50%", ease: Elastic.easeOut}, '-=0.4');
+    
+        // Right tom play
+        window.rightTom = function() {
+            rightTomtl.restart();
+            rightTomtl.play();
+            var smallTomAudioEl = smallTomAudio.get(0);
+            smallTomAudioEl.currentTime = 0;
+            smallTomAudioEl.play();
+        }
+    
+        // Do the right tom stuff when clicked/touched
+        var clickTouchRTDrumDone = false;
+        rightTomDrumAll.on("touchstart click", function() {
+            if(!clickTouchRTDrumDone) {
+                clickTouchRTDrumDone = true;
+                setTimeout(function() {
+                    clickTouchRTDrumDone = false;
+                }, 100);
+                rightTom();
+                return false;
+            }
+        });
+    
     // Show/hide sequencer variables
     sequencerVisible = false;
 
