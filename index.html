@@ -2,11 +2,11 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Animated Drum Kit</title>
 		<meta name="description" content="A Animated drum-kit with recording and playing options">
 		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css">
+		<script src="https://kit.fontawesome.com/244e72d5f5.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
 	<body>
@@ -95,9 +95,10 @@
 						<div class="sequencer-controls">
 							<button id="sequencer-active-btn" class="btn" aria-label="Play"><i class="fa fa-play"></i></button>
 							<div class="sequencer-controls-tempo">
+								<button id="save-config" class="btn" aria-label="Save"><i class="fa-solid fa-floppy-disk"></i></button>	
 								<button id="bpm-decrease-btn" class="btn" aria-label="Decrease bpm"><i class="fa fa-minus"></i></button>
 								<input id="bpm-indicator" type="number" min="100" max="300" size="3" value="150" readonly>
-								<button id="bpm-increase-btn" class="btn" aria-label="Iecrease bpm"><i class="fa fa-plus"></i></button>
+								<button id="bpm-increase-btn" class="btn" aria-label="Increase bpm"><i class="fa fa-plus"></i></button>
 							</div>
 						</div>
 					</div>
