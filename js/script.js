@@ -298,7 +298,10 @@ $(function() {
 				break;
 		}
 	};
-
+	// Open Player 
+	$('#player').click(function(){
+		location.href = "../html/player.html";
+	})
 	// Show/hide sequencer variables
 	sequencerVisible = false;
 
@@ -333,7 +336,7 @@ $(function() {
 		// If the current input is checked do some stuff!
 	    if (current.find('input').is(":checked")) {
 	      targetDrum = (current.parent().attr('data-target-drum'));
-				// If there a function that shares the same name as the data attribue, do it!
+				// If there a function that shares the same name as the data attribute, do it!
 				fn = window[targetDrum];
 				if (typeof fn === "function") {
 					fn();
@@ -352,8 +355,9 @@ $(function() {
 	sequencerOn = false;
 
 	// Start/Stop Sequencer
+
 	$('#sequencer-active-btn').click(function () {
-		$(this).find('i').toggleClass('fa-pause');
+		$(this).find('i').toggleClass('fa-floppy-disk');
 		if (sequencerOn === false) {
 			intervalId = window.setInterval(sequencer, interval);
 			sequencerOn = true;
