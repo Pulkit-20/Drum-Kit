@@ -357,11 +357,14 @@ $(function() {
 	// Start/Stop Sequencer
 
 	$('#sequencer-active-btn').click(function () {
-		$(this).find('i').toggleClass('fa-floppy-disk');
 		if (sequencerOn === false) {
+			$(this).find('i').removeClass('fa-play');
+			$(this).find('i').toggleClass('fa-pause');
 			intervalId = window.setInterval(sequencer, interval);
 			sequencerOn = true;
 		} else {
+			$(this).find('i').removeClass('fa-pause');
+			$(this).find('i').toggleClass('fa-play');
 			window.clearInterval(intervalId);
 			sequencerOn = false;
 		}
@@ -424,3 +427,88 @@ $(function() {
 	});
 
 });
+// Record Audio 
+let mediaRecorder;
+let audioStream;
+stopButton = false;
+let audioChunks = [];
+
+// Add a click event listener to the Start Recording button
+$('#save-audio').click(function() {
+	if(stopButton == false){
+		$(this).find('i').removeClass('fa-floppy-disk');
+		$(this).find('i').toggleClass('fa-file-export');
+		navigator.mediaDevices.getUserMedia({ audio: { mediaSource: 'audio-output' } })
+			.then(function(stream) {
+			audioStream = stream;
+			mediaRecorder = new MediaRecorder(stream);
+
+			mediaRecorder.ondataavailable = function(event) {
+				audioChunks.push(event.data);
+				// Handle the audio data in event.data
+			};
+
+			mediaRecorder.start();
+			stopButton = true;
+			})
+			.catch(function(error) {
+				console.error('Error accessing system audio:', error);
+			});
+	}
+	else{
+		$(this).find('i').removeClass('fa-file-export');
+		$(this).find('i').addClass('fa-floppy-disk');
+		if (mediaRecorder) {
+			mediaRecorder.stop();
+			audioStream.getTracks().forEach(track => track.stop());
+		}
+		stopButton = false;
+		// Prompt the user for a name for the audio
+		const audioName = prompt('Enter a name for the audio:');
+
+		if (!audioName) {
+		  // Handle the case where the user cancels or enters an empty name
+		  return;
+		}
+		const composerName = prompt('Enter a name for the User:');
+
+		if (!composerName) {
+		  // Handle the case where the user cancels or enters an empty name
+		  return;
+		}
+		const dbName = 'AudioDB';
+		const request = indexedDB.open(dbName);
+
+		request.onerror = function (event) {
+			console.error('Database error: ' + event.target.errorCode);
+		};
+
+		request.onsuccess = function (event) {
+			const db = event.target.result;
+
+			// Create a transaction for read/write access to the object store
+			const transaction = db.transaction(['AudioData'], 'readwrite');
+			const objectStore = transaction.objectStore('AudioData');
+
+			// Create a Blob from audio chunks
+			const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+			const audioObject = {
+				name: audioName,
+				data: audioBlob,
+				Cname: composerName,
+			  };
+			// Store the audio data in IndexedDB
+			objectStore.put(audioObject);
+
+    		console.log(`Audio "${audioName}" saved to IndexedDB.`);
+			recordedAudio.src = URL.createObjectURL(audioBlob);
+		};
+		request.onupgradeneeded = function (event) {
+			const db = event.target.result;
+		
+			// Create an object store for audio data
+			db.createObjectStore('AudioData', { keyPath: null });
+		  };
+	}
+});
+
