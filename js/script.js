@@ -1,3 +1,40 @@
+// Function to get query parameters from the URL
+function getQueryParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Function to load and update the sequencer configuration
+function loadSequencerConfiguration(configIndex) {
+    const sequencerConfigurationsString = localStorage.getItem('sequencerConfigurations');
+    if (sequencerConfigurationsString) {
+        const sequencerConfigurations = JSON.parse(sequencerConfigurationsString);
+
+        // Check if the specified configIndex is valid
+        if (configIndex >= 0 && configIndex < sequencerConfigurations.length) {
+            const selectedConfig = sequencerConfigurations[configIndex];
+
+            // Iterate through each row in the sequencer and update the checkboxes
+            const rows = document.querySelectorAll('.row');
+            Object.keys(selectedConfig.config).forEach((targetDrum, index) => {
+                const checkboxes = rows[index].querySelectorAll('input[type="checkbox"]');
+                selectedConfig.config[targetDrum].forEach((isChecked, i) => {
+                    checkboxes[i].checked = isChecked;
+                });
+            });
+
+            // Update the BPM indicator (if you have BPM information)
+            document.getElementById('bpm-indicator').value = selectedConfig.bpm;
+        }
+    }
+}
+
+// Check if there is a "configIndex" query parameter in the URL
+const configIndex = getQueryParameter('configIndex');
+if (configIndex !== null) {
+    loadSequencerConfiguration(parseInt(configIndex));
+}
+
 $(function() {
 	// Crash variables
 	crashCymbolAll = $('#Crash');

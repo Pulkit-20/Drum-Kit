@@ -1,3 +1,6 @@
+$('#drum-kit').click(function(){
+    location.href = "../index.html";
+});
 function deleteEntryFromLocalStorage(audioName) {
     const sequencerConfigurationsString = localStorage.getItem('sequencerConfigurations');
     if (sequencerConfigurationsString) {
@@ -15,6 +18,47 @@ function deleteEntryFromLocalStorage(audioName) {
         }
     }
 }
+
+function updateEntryInLocalStorage(sequencerConfig) {
+    const sequencerConfigurationsString = localStorage.getItem('sequencerConfigurations');
+    if (sequencerConfigurationsString) {
+        let sequencerConfigurations = JSON.parse(sequencerConfigurationsString);
+
+        // Find the index of the entry to update
+        const indexToUpdate = sequencerConfigurations.findIndex(config => config.audioName === sequencerConfig.audioName);
+
+        if (indexToUpdate !== -1) {
+            // Update the entry in the array
+            sequencerConfigurations[indexToUpdate] = sequencerConfig;
+
+            // Update the local storage
+            localStorage.setItem('sequencerConfigurations', JSON.stringify(sequencerConfigurations));
+        }
+    }
+}
+
+function editEntry(sequencerConfig, audioNameElement, composerNameElement) {
+    // Prompt the user to edit the audio name
+    const editedAudioName = prompt('Edit the audio name:', sequencerConfig.audioName);
+    if (editedAudioName !== null) {
+        sequencerConfig.audioName = editedAudioName;
+
+        // Prompt the user to edit the composer name
+        const editedComposerName = prompt('Edit the composer name:', sequencerConfig.composerName);
+        if (editedComposerName !== null) {
+            sequencerConfig.composerName = editedComposerName;
+
+            // Update the displayed names
+            audioNameElement.textContent = sequencerConfig.audioName;
+            composerNameElement.textContent = sequencerConfig.composerName;
+
+            // Update the entry in local storage
+            updateEntryInLocalStorage(sequencerConfig);
+        }
+    }
+}
+
+
 // Load sequencer configurations, audio name, and user name from local storage
 document.addEventListener('DOMContentLoaded', function () {
     const sequencerConfigurationsString = localStorage.getItem('sequencerConfigurations');
@@ -41,14 +85,21 @@ document.addEventListener('DOMContentLoaded', function () {
             playButton.classList.add('fa');
             playButton.classList.add('fa-play');
             playButton.addEventListener('click', function () {
-                // Add code to play the audio when the button is clicked
+                 // Get the index of the current configuration
+                const configIndex = sequencerConfigurations.indexOf(sequencerConfig);
+
+                // Create a URL with a query parameter for the configuration index
+                const playerPageURL = `../index.html?configIndex=${configIndex}`;
+
+                // Redirect to the main page (sequencer.html) with the configuration index
+                window.location.href = playerPageURL;
             });
             const editButton = document.createElement('button');
             editButton.classList.add('p-3');
             editButton.classList.add('fa');
             editButton.classList.add('fa-pen-to-square');
             editButton.addEventListener('click', function () {
-                // Add code to play the audio when the button is clicked
+                editEntry(sequencerConfig, audioNameElement, composerNameElement);
             });
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('p-3');

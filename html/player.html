@@ -9,22 +9,30 @@
 	<script src="https://kit.fontawesome.com/244e72d5f5.js" crossorigin="anonymous"></script>
 </head>
 <body class="overflow-hidden flex items-center justify-center" style="background: rgb(17 24 39);">
-	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-	<div class="flex items-center justify-center bg-gray-900">
-		<div class="col-span-12">
-			<div class="overflow-auto lg:overflow-visible ">
-				<table class="table text-gray-400 border-separate space-y-6 text-sm">
-					<thead class="bg-gray-800 text-gray-500">
-						<tr>
-							<th class="p-3">Name of Tune</th>
-							<th class="p-3 text-left">Composer</th>
-							<th class="p-3 text-center">Action</th>
-						</tr>
-					</thead>
-					<tbody id ="audioList">
-						
-					</tbody>
-				</table>
+	<div class="flex flex-col">
+		<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+		<div class="heading flex">
+			<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl dark:text-white">Recordings
+			</h1>
+			<button class ="items-center absolute top-5 right-8 text-2xl text-white" id="drum-kit">Drum Kit <i class="fa fa-drum fa-bounce" style="color: white"></i>
+			</button>
+		</div>
+		<div class="flex items-center justify-center bg-gray-900">
+			<div class="col-span-12">
+				<div class="overflow-auto lg:overflow-visible ">
+					<table class="table text-gray-400 border-separate space-y-6 text-sm">
+						<thead class="bg-gray-800 text-gray-500">
+							<tr>
+								<th class="p-3">Name of Tune</th>
+								<th class="p-3 text-left">Composer</th>
+								<th class="p-3 text-center">Action</th>
+							</tr>
+						</thead>
+						<tbody id ="audioList">
+							
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
