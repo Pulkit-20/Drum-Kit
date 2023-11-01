@@ -30,9 +30,19 @@ function loadSequencerConfiguration(configIndex) {
 }
 
 // Check if there is a "configIndex" query parameter in the URL
+sequencerVisible = false;
 const configIndex = getQueryParameter('configIndex');
 if (configIndex !== null) {
     loadSequencerConfiguration(parseInt(configIndex));
+	// Changes the flex-grow value
+	$("#container-sequencer").toggleClass("collapse");
+	if (sequencerVisible === false) {
+		sequencerVisible = true;
+	}  else {
+		sequencerVisible = false;
+	}
+	// This class hides the drums on smaller screens
+	$("#container-drums").toggleClass("screen-sm-hidden");
 }
 
 $(function() {
