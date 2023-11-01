@@ -493,6 +493,7 @@ $(function() {
 		const sequencerConfig = {
 			audioName: audioName,
 			composerName: composerName,
+			bpm,
 			config: {}
 		};
 
