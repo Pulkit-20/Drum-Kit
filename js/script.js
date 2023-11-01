@@ -347,7 +347,7 @@ $(function() {
 	};
 	// Open Player 
 	$('#player').click(function(){
-		location.href = "../html/player.html";
+		location.href = "html/player.html";
 	})
 	// Show/hide sequencer variables
 	sequencerVisible = false;
